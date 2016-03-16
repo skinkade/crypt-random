@@ -1,0 +1,11 @@
+{
+    "name" : "Crypt::Random",
+    "version" : "0.1.0",
+    "description" : "Random numbers and bytes emulating arc4random",
+    "author" : "Shawn Kinkade",
+    "provides" : {
+        "Crypt::Random" : "lib/Crypt/Random.pm6"
+    },
+    "depends" : ["if"],
+    "source-url" : "git://github.com/skinkade/crypt-random.git"
+}
