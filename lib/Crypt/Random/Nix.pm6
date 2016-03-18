@@ -5,7 +5,8 @@ unit module Crypt::Random::Nix;
 
 
 
-sub _crypt_random_bytes ($len) is export {
+subset Buflen of Int where 1 .. 256;
+sub _crypt_random_bytes(Buflen $len) returns Buf is export {
     my $fh = open("/dev/urandom", :bin);
     my $bytes = $fh.read($len);
     $fh.close;

@@ -22,7 +22,8 @@ sub copy-carray-to-buf(CArray $array, Int $no-elems) returns Buf {
 
 
 
-sub _crypt_random_bytes ($len) is export {
+subset Buflen of Int where 1 .. 256;
+sub _crypt_random_bytes(Buflen $len) returns Buf is export {
     my $bytes = CArray[uint8].new;
     $bytes[$len - 1] = 0;
     getentropy($bytes, $len);

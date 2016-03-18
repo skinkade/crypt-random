@@ -10,21 +10,19 @@ unit module Crypt::Random;
 
 
 
-sub crypt_random_buf ($len) is export {
+subset Buflen of Int where 1 .. 256;
+sub crypt_random_buf(Buflen $len) returns Buf is export {
     _crypt_random_bytes($len);
 }
 
-sub crypt_random is export {
+sub crypt_random returns Int is export {
     crypt_random_buf(4).unpack("L");
 }
 
-sub crypt_random_uniform ($upper_bound) is export {
+subset UpperInt of Int where 2 .. 2**32 - 1;
+sub crypt_random_uniform(UpperInt $upper_bound) returns Int is export {
     my ($r, $min);
     
-    if ($upper_bound < 2) {
-        return 0;
-    }
-
     $min = -$upper_bound % $upper_bound;
 
     loop (;;) {
