@@ -24,6 +24,6 @@ Windows, via ```getentropy_win.c``` from OpenBSD.
 ## Copyright & License
 Copyright 2015 Shawn Kinkade.
 
-```getentropy_win.c``` copyright 2014 Theo de Raddt & Bob Beck.
+```getentropy_win.c``` copyright 2014 Theo de Raadt, Bob Beck.
 
 This module may be used under the terms of the Artistic License 2.0.

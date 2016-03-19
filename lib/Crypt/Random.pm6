@@ -1,6 +1,7 @@
 use v6;
 use if;
 use strict;
+use Subsets::Common;
 use experimental :pack;
 
 use Crypt::Random::Win:if($*DISTRO.is-win);
@@ -19,10 +20,13 @@ sub crypt_random returns Int is export {
     crypt_random_buf(4).unpack("L");
 }
 
-subset UpperInt of Int where 2 .. 2**32 - 1;
-sub crypt_random_uniform(UpperInt $upper_bound) returns Int is export {
+sub crypt_random_uniform(UInt32 $upper_bound) returns Int is export {
+    if ($upper_bound < 2) {
+        return 0;
+    }
+
     my ($r, $min);
-    
+
     $min = -$upper_bound % $upper_bound;
 
     loop (;;) {
