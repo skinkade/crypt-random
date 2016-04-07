@@ -12,7 +12,7 @@ my Int $foo = crypt_random();
 # Random 32-bit Int between 0 and $upper_bound (exclusive)
 my Int $bar = crypt_random_uniform($upper_bound);
 
-# Buf of $len random bytes (up to 256)
+# Buf of $len random bytes
 my Buf $baz = crypt_random_buf($len);
 ```
 

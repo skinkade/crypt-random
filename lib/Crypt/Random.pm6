@@ -11,8 +11,7 @@ unit module Crypt::Random;
 
 
 
-subset Buflen of Int where 1 .. 256;
-sub crypt_random_buf(Buflen $len) returns Buf is export {
+sub crypt_random_buf(Int $len) returns Buf is export {
     _crypt_random_bytes($len);
 }
 
