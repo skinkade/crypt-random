@@ -7,7 +7,7 @@ unit module Crypt::Random::Extra;
 
 
 
-sub crypt_random_UUID4 returns Str is export {
+sub crypt_random_UUIDv4 returns Str is export {
     my $buf = crypt_random_buf(16);
     $buf[6] +|= 0b01000000;
     $buf[6] +&= 0b01001111;
