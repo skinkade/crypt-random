@@ -6,26 +6,30 @@ unit module Crypt::Random::Win;
 
 
 
-sub getentropy(CArray[uint8], size_t)
-    is native('./getentropy32.dll')
+# RtlGenRandom
+sub SystemFunction036(CArray[uint8], uint64)
+    returns Bool
+    is native('Advapi32')
     { * }
 
 
 
-# Credit: Jonathan Stowe via NativeHelpers::Array
-# Copied to avoid dependencies
-sub copy-carray-to-buf(CArray $array, Int $no-elems) returns Buf {
+sub carray-to-buf-with-zero(CArray $carray) {
     my $buf = Buf.new;
-    $buf[$_] = $array[$_] for ^$no-elems;
+    for ^$carray.elems {
+        $buf[$_] = $carray[$_];
+        $carray[$_] = 0;
+    }
     $buf;
 }
 
 
 
-subset Buflen of Int where 1 .. 256;
-sub _crypt_random_bytes(Buflen $len) returns Buf is export {
+sub _crypt_random_bytes(Int $len) returns Buf is export {
     my $bytes = CArray[uint8].new;
     $bytes[$len - 1] = 0;
-    getentropy($bytes, $len);
-    copy-carray-to-buf($bytes, $len);
+    if (!SystemFunction036($bytes, $len) {
+        die("RtlGenRandom() failed");
+    }
+    carray-to-buf-with-zero($bytes);
 }
