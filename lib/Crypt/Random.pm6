@@ -1,8 +1,6 @@
 use v6;
 use if;
 use strict;
-use Subsets::Common;
-use experimental :pack;
 
 use Crypt::Random::Win:if($*DISTRO.is-win);
 use Crypt::Random::Nix:if(!$*DISTRO.is-win);

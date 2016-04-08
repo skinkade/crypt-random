@@ -7,6 +7,6 @@
         "Crypt::Random" : "lib/Crypt/Random.pm6",
         "Crypt::Random::Extra" : "lib/Crypt/Random/Extra.pm6"
     },
-    "depends" : ["if", "Subsets::Common"],
+    "depends" : ["if"],
     "source-url" : "git://github.com/skinkade/crypt-random.git"
 }

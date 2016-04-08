@@ -1,7 +1,6 @@
 use v6;
 use strict;
 use Crypt::Random;
-use experimental :pack;
 
 unit module Crypt::Random::Extra;
 
