@@ -4,7 +4,8 @@
     "description" : "Random numbers and bytes emulating arc4random",
     "author" : "Shawn Kinkade",
     "provides" : {
-        "Crypt::Random" : "lib/Crypt/Random.pm6"
+        "Crypt::Random" : "lib/Crypt/Random.pm6",
+        "Crypt::Random::Extra" : "lib/Crypt/Random/Extra.pm6"
     },
     "depends" : ["if", "Subsets::Common"],
     "source-url" : "git://github.com/skinkade/crypt-random.git"

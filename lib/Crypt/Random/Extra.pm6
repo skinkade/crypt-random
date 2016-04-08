@@ -14,11 +14,8 @@ sub crypt_random_UUIDv4 returns Str is export {
     $buf[8] +|= 0b10000000;
     $buf[8] +&= 0b10111111;
 
-    my $uuid = $buf.unpack("H16");
-    $uuid.substr-rw(8, 0) = '-';
-    $uuid.substr-rw(13, 0) = '-';
-    $uuid.substr-rw(18, 0) = '-';
-    $uuid.substr-rw(23, 0) = '-';
-
-    $uuid;
+    # skids is a wizard
+    (:256[$buf.values].fmt("%32.32x")
+        ~~ /(........)(....)(....)(....)(............)/)
+        .join("-");
 }
