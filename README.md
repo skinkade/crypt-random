@@ -16,6 +16,20 @@ my Int $bar = crypt_random_uniform($upper_bound);
 my Buf $baz = crypt_random_buf($len);
 ```
 
+### Arbitrary Precision
+`crypt_random()` and `crypt_random_uniform()` operate with arbitrary precision,
+defaulting to 32 bits. For example, we can use 128-bit Ints:
+```
+> crypt_random();
+2995622573
+> crypt_random((128/8).Int);
+329575757216165039775477155555355515616
+> crypt_random_uniform(329575757216165039775477155555355515616);
+3948459150
+> crypt_random_uniform(329575757216165039775477155555355515616, (128/8).Int);
+41874606600151197604385879164147854165
+```
+
 ## Extra
 Additional useful functions built upon the above primitives. Currently contains
 a random UUID function.
