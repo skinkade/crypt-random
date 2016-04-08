@@ -11,15 +11,17 @@ unit module Crypt::Random;
 
 
 
-sub crypt_random_buf(Int $len) returns Buf is export {
+sub crypt_random_buf(UInt64 $len) returns Buf is export {
     _crypt_random_bytes($len);
 }
 
-sub crypt_random returns Int is export {
-    crypt_random_buf(4).unpack("L");
+sub crypt_random(UInt64 $size = 4) returns Int is export {
+    my Int $count = 0;
+    ($count +<= 8) += $_ for crypt_random_buf($size).values;
+    $count;
 }
 
-sub crypt_random_uniform(UInt32 $upper_bound) returns Int is export {
+sub crypt_random_uniform(Int $upper_bound, UInt64 $size = 4) returns Int is export {
     if ($upper_bound < 2) {
         return 0;
     }
@@ -29,7 +31,7 @@ sub crypt_random_uniform(UInt32 $upper_bound) returns Int is export {
     $min = -$upper_bound % $upper_bound;
 
     loop (;;) {
-        $r = crypt_random();
+        $r = crypt_random($size);
         if ($r >= $min) {
             last;
         }
