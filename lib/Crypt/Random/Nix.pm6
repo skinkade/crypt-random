@@ -7,7 +7,7 @@ unit module Crypt::Random::Nix;
 
 my $urandom = open("/dev/urandom", :bin);
 
-sub _crypt_random_bytes(Int $len) returns Buf is export {
+sub _crypt_random_bytes(uint64 $len) returns Buf is export {
     my $bytes = $urandom.read($len);
 
     if ($bytes.elems != $len) {

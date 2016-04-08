@@ -9,17 +9,17 @@ unit module Crypt::Random;
 
 
 
-sub crypt_random_buf(UInt64 $len) returns Buf is export {
+sub crypt_random_buf(uint64 $len) returns Buf is export {
     _crypt_random_bytes($len);
 }
 
-sub crypt_random(UInt64 $size = 4) returns Int is export {
+sub crypt_random(uint64 $size = 4) returns Int is export {
     my Int $count = 0;
     ($count +<= 8) += $_ for crypt_random_buf($size).values;
     $count;
 }
 
-sub crypt_random_uniform(Int $upper_bound, UInt64 $size = 4) returns Int is export {
+sub crypt_random_uniform(Int $upper_bound, uint64 $size = 4) returns Int is export {
     if ($upper_bound < 2) {
         return 0;
     }

@@ -21,5 +21,5 @@ sub _crypt_random_bytes(uint64 $len) returns Buf is export {
         die("RtlGenRandom() failed");
     }
 
-    $bytes; 
+    $bytes;
 }
