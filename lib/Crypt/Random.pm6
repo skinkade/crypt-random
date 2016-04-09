@@ -26,7 +26,7 @@ sub crypt_random_uniform(Int $upper_bound, uint64 $size = 4) returns Int is expo
 
     my ($r, $min);
 
-    $min = -$upper_bound % $upper_bound;
+    $min = (2**($size*8) - $upper_bound) % $upper_bound;
 
     loop (;;) {
         $r = crypt_random($size);
