@@ -18,3 +18,14 @@ sub crypt_random_UUIDv4 returns Str is export {
         ~~ /(........)(....)(....)(....)(............)/)
         .join("-");
 }
+
+sub crypt_random_prime(uint64 $size = 4) returns Int is export {
+    my $prime = Int.new;
+
+    loop (;;) {
+        $prime = crypt_random($size);
+        if ($prime.is-prime) {
+            return $prime;
+        }
+    }
+}

@@ -31,12 +31,14 @@ defaulting to 32 bits. For example, we can use 128-bit Ints:
 ```
 
 ## Extra
-Additional useful functions built upon the above primitives. Currently contains
-a random UUID function.
+Additional useful functions built upon the above primitives.
 ```
 use Crypt::Random::Extra;
 
 my Str $uuid = crypt_random_UUIDv4();
+
+my Int $prime = crypt_random_prime();
+my Int $prime2048 = crypt_random_prime((2048/8).Int);
 ```
 
 ## Entropy Sources
