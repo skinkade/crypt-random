@@ -1,4 +1,4 @@
-# Crypt::Random
+# Crypt::Random [![Build Status](https://travis-ci.org/skinkade/crypt-random.svg?branch=master)](https://travis-ci.org/skinkade/crypt-random) [![Build status](https://ci.appveyor.com/api/projects/status/9w39bpjclskckwep?svg=true)](https://ci.appveyor.com/project/skinkade/crypt-random)
 Random numbers and bytes emulating `arc4random()`.
 
 
