@@ -14,7 +14,7 @@ sub SystemFunction036(Buf, uint64)
 
 
 
-sub _crypt_random_bytes(uint64 $len) returns Buf is export {
+sub _crypt_random_bytes($len) returns Buf is export {
     my $bytes = Buf.new;
     $bytes[$len - 1] = 0;
 
