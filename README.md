@@ -1,5 +1,7 @@
-# Crypt::Random [![Build Status](https://travis-ci.org/skinkade/crypt-random.svg?branch=master)](https://travis-ci.org/skinkade/crypt-random) [![Build status](https://ci.appveyor.com/api/projects/status/9w39bpjclskckwep?svg=true)](https://ci.appveyor.com/project/skinkade/crypt-random)
-Random numbers and bytes emulating `arc4random()`.
+# Crypt::Random
+[![Build Status](https://travis-ci.org/skinkade/crypt-random.svg?branch=master)](https://travis-ci.org/skinkade/crypt-random) [![Build status](https://ci.appveyor.com/api/projects/status/9w39bpjclskckwep?svg=true)](https://ci.appveyor.com/project/skinkade/crypt-random)
+
+Random numbers and bytes mimicking `arc4random()`.
 
 
 ## Synopsis
@@ -33,12 +35,18 @@ defaulting to 32 bits. For example, we can use 128-bit Ints:
 ## Extra
 Additional useful functions built upon the above primitives.
 ```
-use Crypt::Random::Extra;
+> use Crypt::Random::Extra
 
-my Str $uuid = crypt_random_UUIDv4();
+> my Str $uuid = crypt_random_UUIDv4()
+ad7c433e-cf9f-4393-9403-cc59197191bd
 
-my Int $prime = crypt_random_prime();
-my Int $prime2048 = crypt_random_prime((2048/8).Int);
+> my Int $prime = crypt_random_prime()
+2147037551
+> my Int $prime2048 = crypt_random_prime((2048/8).Int)
+96793777171756505978796079334994845848042781756...
+
+> my @sample = crypt_random_sample([1..100], 20)
+[10 55 88 71 58 41 1 84 5 94 29 68 44 47 13 67 85 65 54 86]
 ```
 
 ## Entropy Sources

@@ -29,3 +29,15 @@ sub crypt_random_prime(uint64 $size = 4) returns Int is export {
         }
     }
 }
+
+sub crypt_random_sample($set where List|Blob,
+                        $count where 1..^$set.elems) is export {
+
+    my @sample;
+
+    for ^$count {
+        @sample.push($set[crypt_random_uniform($set.elems)]);
+    }
+
+    @sample;
+}
