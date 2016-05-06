@@ -5,7 +5,11 @@ unit module Crypt::Random::Nix;
 
 
 
-my $urandom = open("/dev/urandom", :bin);
+my IO::Handle $urandom;
+INIT { $urandom = open("/dev/urandom", :bin); }
+END  { $urandom.close; }
+
+
 
 sub _crypt_random_bytes(uint64 $len) returns Buf is export {
     my $bytes = $urandom.read($len);
