@@ -5,6 +5,8 @@ unit module Crypt::Random::Nix;
 
 
 
+# Persistent file handle because repeated open/close causes
+# many repeated calls to be dramatically slower
 my IO::Handle $urandom;
 INIT { $urandom = open("/dev/urandom", :bin); }
 END  { $urandom.close; }

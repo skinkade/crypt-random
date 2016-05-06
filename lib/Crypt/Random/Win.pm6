@@ -6,7 +6,8 @@ unit module Crypt::Random::Win;
 
 
 
-# RtlGenRandom
+# RtlGenRandom() uses the same CSPRNG as CryptGenRandom()
+# and can be easily used here (without bundling C code)
 sub SystemFunction036(Buf, uint64)
     returns Bool
     is native('Advapi32', v0)

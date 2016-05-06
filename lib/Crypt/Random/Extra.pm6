@@ -31,7 +31,7 @@ sub crypt_random_prime(uint64 $size = 4) returns Int is export {
 }
 
 sub crypt_random_sample($set where List|Blob,
-                        $count where 1..^$set.elems) is export {
+                        $count where 1..^$set.elems) returns Array is export {
 
     my @sample;
 
