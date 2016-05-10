@@ -6,7 +6,7 @@ unit module Crypt::Random::Win;
 
 
 
-subset HCRYPTPROV of Pointer[ulong];
+subset HCRYPTPROV of Pointer[uint32];
 constant PROV_RSA_FULL = 0x00000001;
 constant CRYPT_VERIFYCONTEXT = 0xF0000000;
 
