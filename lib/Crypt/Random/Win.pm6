@@ -27,12 +27,20 @@ sub CryptReleaseContext(Pointer $hProv, uint32 $dwFlags)
     is native('Advapi32', v0)
     { * }
 
+sub GetLastError()
+    returns uint32
+    is native('Kernel32', v0)
+    { * }
+
 
 
 sub _crypt_random_bytes($len) returns Buf is export {
     my Pointer $hProv .= new;
     my $ctx_ret = CryptAcquireContextA(&$hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
-    die "CryptAcquireContext() failure" if !$ctx_ret;
+    if !$ctx_ret {
+        my $lasterr = GetLastError();
+        die "CryptAcquireContext() failure: $lasterr";
+    }
 
     my $bytes = Buf.new;
     $bytes[$len - 1] = 0;
