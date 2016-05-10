@@ -16,7 +16,7 @@ sub CryptGenRandom(Pointer $hProv, uint32 $dwLen, Buf $pbBuffer)
     is native('Advapi32', v0)
     { * }
 
-sub CryptAcquireContext(Pointer[Pointer] $phProv, Str $pszContainer,
+sub CryptAcquireContextA(Pointer[Pointer] $phProv, Str $pszContainer,
                         Str $pszProvider, uint32 $dwProvType, uint32 $dwFlags)
     returns Bool
     is native('Advapi32', v0)
@@ -31,7 +31,7 @@ sub CryptReleaseContext(Pointer $hProv, uint32 $dwFlags)
 
 sub _crypt_random_bytes($len) returns Buf is export {
     my Pointer $hProv .= new;
-    my $ctx_ret = CryptAcquireContext(&$hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+    my $ctx_ret = CryptAcquireContextA(&$hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
     die "CryptAcquireContext() failure" if !$ctx_ret;
 
     my $bytes = Buf.new;
