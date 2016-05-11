@@ -6,22 +6,49 @@ unit module Crypt::Random::Win;
 
 
 
-# RtlGenRandom() uses the same CSPRNG as CryptGenRandom()
-# and can be easily used here (without bundling C code)
-sub SystemFunction036(Buf, uint64)
+class CSP is repr('CPointer') { };
+constant PROV_RSA_FULL = 0x00000001;
+constant CRYPT_VERIFYCONTEXT = 0xF0000000;
+
+
+
+sub CryptGenRandom(CSP $hProv, uint32 $dwLen, Buf $pbBuffer)
     returns Bool
     is native('Advapi32', v0)
+    { * }
+
+sub CryptAcquireContextA(CSP $phProv is rw, Str $pszContainer,
+                        Str $pszProvider, uint32 $dwProvType, uint32 $dwFlags)
+    returns Bool
+    is native('Advapi32', v0)
+    { * }
+
+sub CryptReleaseContext(CSP $hProv, uint32 $dwFlags)
+    returns Bool
+    is native('Advapi32', v0)
+    { * }
+
+sub GetLastError()
+    returns uint32
+    is native('Kernel32', v0)
     { * }
 
 
 
 sub _crypt_random_bytes($len) returns Buf is export {
+    my CSP $hProv .= new;
+
+    if !CryptAcquireContextA($hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) {
+        my $lasterr = GetLastError();
+        die "CryptAcquireContext() failure: $lasterr";
+    }
+
     my $bytes = Buf.new;
     $bytes[$len - 1] = 0;
 
-    if (!SystemFunction036($bytes, $len)) {
-        die("RtlGenRandom() failed");
-    }
+    die "CryptGenRandom() failure" if !CryptGenRandom($hProv, $len, $bytes);
+
+    die "CryptReleaseContext() failure" if !CryptReleaseContext($hProv, 0);
 
     $bytes;
 }
