@@ -6,23 +6,24 @@ unit module Crypt::Random::Win;
 
 
 
+class CSP is repr('CPointer') { };
 constant PROV_RSA_FULL = 0x00000001;
 constant CRYPT_VERIFYCONTEXT = 0xF0000000;
 
 
 
-sub CryptGenRandom(Pointer $hProv, uint32 $dwLen, Buf $pbBuffer)
+sub CryptGenRandom(CSP $hProv, uint32 $dwLen, Buf $pbBuffer)
     returns Bool
     is native('Advapi32', v0)
     { * }
 
-sub CryptAcquireContextA(Pointer[Pointer] $phProv, Str $pszContainer,
+sub CryptAcquireContextA(CSP $phProv is rw, Str $pszContainer,
                         Str $pszProvider, uint32 $dwProvType, uint32 $dwFlags)
     returns Bool
     is native('Advapi32', v0)
     { * }
 
-sub CryptReleaseContext(Pointer $hProv, uint32 $dwFlags)
+sub CryptReleaseContext(CSP $hProv, uint32 $dwFlags)
     returns Bool
     is native('Advapi32', v0)
     { * }
@@ -35,8 +36,8 @@ sub GetLastError()
 
 
 sub _crypt_random_bytes($len) returns Buf is export {
-    my Pointer $hProv .= new;
-    my $ctx_ret = CryptAcquireContextA(&$hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
+    my CSP $hProv .= new;
+    my $ctx_ret = CryptAcquireContextA($hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT);
     if !$ctx_ret {
         my $lasterr = GetLastError();
         die "CryptAcquireContext() failure: $lasterr";
