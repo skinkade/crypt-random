@@ -13,7 +13,7 @@ END  { $urandom.close; }
 
 
 
-sub _crypt_random_bytes(uint64 $len) returns Buf is export {
+sub _crypt_random_bytes(uint32 $len) returns Buf is export {
     my $bytes = $urandom.read($len);
 
     if ($bytes.elems != $len) {
