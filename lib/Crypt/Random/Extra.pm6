@@ -19,8 +19,8 @@ sub crypt_random_UUIDv4 returns Str is export {
         .join("-");
 }
 
-subset UInt32 of Int where 1 .. 2**32 - 1;
-sub crypt_random_prime(UInt32 $size = 4) returns Int is export {
+subset PosUInt32 of Int where 1 .. 2**32 - 1;
+sub crypt_random_prime(PosUInt32 $size = 4) returns Int is export {
     my $prime = Int.new;
 
     loop (;;) {
@@ -32,7 +32,7 @@ sub crypt_random_prime(UInt32 $size = 4) returns Int is export {
 }
 
 sub crypt_random_sample($set where List|Blob,
-                        $count where 1..^$set.elems) returns Array is export {
+                        Int $count) returns Array is export {
 
     my @sample;
 
