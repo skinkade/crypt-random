@@ -38,7 +38,7 @@ sub GetLastError()
 sub _crypt_random_bytes($len) returns Buf is export {
     my CSP $hProv .= new;
 
-    if !CryptAcquireContextA($hProv, Code, Code, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) {
+    if !CryptAcquireContextA($hProv, Str, Str, PROV_RSA_FULL, CRYPT_VERIFYCONTEXT) {
         my $lasterr = GetLastError();
         die "CryptAcquireContext() failure: $lasterr";
     }
@@ -46,9 +46,15 @@ sub _crypt_random_bytes($len) returns Buf is export {
     my $bytes = Buf.new;
     $bytes[$len - 1] = 0;
 
-    die "CryptGenRandom() failure" if !CryptGenRandom($hProv, $len, $bytes);
+    if !CryptGenRandom($hProv, $len, $bytes) {
+        my $lasterr = GetLastError();
+        die "CryptGenRandom() failure: $lasterr";
+    }
 
-    die "CryptReleaseContext() failure" if !CryptReleaseContext($hProv, 0);
+    if !CryptReleaseContext($hProv, 0) {
+        my $lasterr = GetLastError();
+        die "CryptReleaseContext() failure: $lasterr";
+    }
 
     $bytes;
 }
