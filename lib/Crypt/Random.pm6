@@ -2,8 +2,11 @@ use v6;
 use if;
 use strict;
 
+my constant HAS_ARC4RANDOM = so $*VM.osname ~~ m:i/bsd|darwin|solaris|openindiana|illumos/;
+
 use Crypt::Random::Win:if($*DISTRO.is-win);
-use Crypt::Random::Nix:if(!$*DISTRO.is-win);
+use Crypt::Random::Nix:if(!$*DISTRO.is-win && !HAS_ARC4RANDOM);
+use Crypt::Random::BSD:if(HAS_ARC4RANDOM);
 
 unit module Crypt::Random;
 
