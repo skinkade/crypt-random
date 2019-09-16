@@ -5,19 +5,17 @@ use NativeCall;
 
 unit module Crypt::Random::Nix;
 
-sub syscall ( long, Buf, size_t, uint32 --> ssize_t ) is native {*}
+sub getrandom ( Buf, size_t, uint32 --> ssize_t ) is native {*}
 enum CVar (
-    SYS_getrandom => 318,
     GRND_NONBLOCK => 0b01,
 );
 
 sub _crypt_random_bytes(uint32 $len) returns Buf is export {
-    return _crypt_random_bytes_urandom($len)
-        if Version.new($*KERNEL.release) < v3.17;
+    my $errno     := try cglobal ('c', v6), 'errno', int32;
+    my $getrandom := try getrandom (my Buf $bytes.=allocate: $len),
+        $len, GRND_NONBLOCK unless $!;
 
-    my $errno     := cglobal ('c', v6), 'errno', int32;
-    my $getrandom := syscall SYS_getrandom,
-        (my Buf $bytes.=allocate: $len), $len, GRND_NONBLOCK;
+    return _crypt_random_bytes_urandom($len) if $!;
 
     die "getrandom() error: errno $errno" if $getrandom == -1;
     die 'Failed to read enough bytes from getrandom()' if $getrandom != $len;
